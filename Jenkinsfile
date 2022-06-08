@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('SCM') {
             steps {
-                git branch: 'main', url: 'https://github.com/vncharyhub/SPC-Project.git'
+                git branch: 'main', url: 'https://github.com/vncharyhub/SPC-Docker-Build.git'
             }
         }
         stage('Docker-Build') {
@@ -20,10 +20,12 @@ pipeline {
         }
         stage('Push Image to Docker-Registry') {
             steps {
-              sh 'docker login -u itscchary -p Itsmechary@1'
-              sh 'docker image push itschary/$JOB_NAME:v1.$BUILD_ID'
-              sh 'docker image push itschary/$JOB_NAME:v1.$BUILD_ID'
-              sh 'docker image rmi $JOB_NAME:v1.$BUILD_ID itschary/$JOB_NAME:v1.$BUILD_ID itschary/$JOB_NAME:latest'
+                withCredentials([usernamePassword(credentialsId: 'Docker-hub', passwordVariable: 'dockerhubpassword', usernameVariable: 'itschary')]) {
+                    sh ' docker login -u itschary -p ${dockerhubpassword}'
+                    sh 'docker image push itschary/$JOB_NAME:v1.$BUILD_ID'
+                    sh 'docker image push itschary/$JOB_NAME:v1.$BUILD_ID'
+                    sh 'docker image rmi $JOB_NAME:v1.$BUILD_ID itschary/$JOB_NAME:v1.$BUILD_ID itschary/$JOB_NAME:latest'
+                }
             }
         }
     }

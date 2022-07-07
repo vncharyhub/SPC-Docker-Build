@@ -21,7 +21,7 @@ pipeline {
         stage('Push Image to Docker-Registry') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Docker-hub', passwordVariable: 'dockerhubpassword', usernameVariable: 'itschary')]) {
-                    sh ' docker login -u itschary -p ${dockerhubpassword}'
+                    sh 'docker login -u itschary -p ${dockerhubpassword}'
                     sh 'docker image push itschary/$JOB_NAME:v1.$BUILD_ID'
                     sh 'docker image push itschary/$JOB_NAME:v1.$BUILD_ID'
                     sh 'docker image rmi $JOB_NAME:v1.$BUILD_ID itschary/$JOB_NAME:v1.$BUILD_ID itschary/$JOB_NAME:latest'

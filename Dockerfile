@@ -1,4 +1,5 @@
-FROM openjdk:11-slim
+# FROM openjdk:11-slim
+FROM gobase AS buildx-version
 LABEL author="Naresh Chary"
 LABEL organization="ADP India Private Limited"
 ARG DOWNLOAD_URL=https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar /spring-petclinic.jar
